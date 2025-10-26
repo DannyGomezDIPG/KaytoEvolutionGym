@@ -1,0 +1,26 @@
+.form-container {
+  padding: 24px;
+  max-width: 800px;
+  margin: auto;
+}
+
+.payment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.form-row mat-form-field {
+  flex: 1;
+}
+
+.button-row {
+  margin-top: 16px;
+  display: flex;
+  gap: 10px;
+}

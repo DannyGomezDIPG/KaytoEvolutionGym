@@ -1,0 +1,30 @@
+.form-container {
+  padding: 24px;
+  max-width: 800px;
+  margin: auto;
+}
+
+.client-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Espacio entre filas */
+}
+
+.form-row {
+  display: flex;
+  gap: 16px; /* Espacio entre campos en la misma fila */
+}
+
+.form-row mat-form-field {
+  flex: 1; /* Hace que los campos ocupen el mismo espacio */
+}
+
+.full-width {
+    width: 100%;
+}
+
+.button-row {
+  margin-top: 16px;
+  display: flex;
+  gap: 10px;
+}

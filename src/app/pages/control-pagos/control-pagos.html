@@ -1,0 +1,42 @@
+<div class="form-container">
+  <h1>Control y Registro de Pagos</h1>
+
+  <form class="payment-form">
+    <mat-form-field appearance="fill">
+      <mat-label>Nombre del Cliente</mat-label>
+      <mat-select required>
+        <mat-option value="cliente1">Juan Pérez López</mat-option>
+        <mat-option value="cliente2">Maria García Robles</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="form-row">
+      <mat-form-field appearance="fill">
+        <mat-label>Monto de Pago</mat-label>
+        <input matInput type="number" placeholder="Ej. 350.00" required>
+        <span matTextPrefix>$&nbsp;</span>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Método de Pago</mat-label>
+        <mat-select required>
+          <mat-option value="efectivo">Efectivo</mat-option>
+          <mat-option value="tarjeta">Tarjeta de Crédito/Débito</mat-option>
+          <mat-option value="transferencia">Transferencia</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    
+    <mat-form-field appearance="fill">
+      <mat-label>Fecha de Pago</mat-label>
+      <input matInput [matDatepicker]="picker" required>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <div class="button-row">
+      <button mat-raised-button color="primary" type="submit">Guardar Pago</button>
+      <button mat-button type="button">Cancelar</button>
+    </div>
+  </form>
+</div>

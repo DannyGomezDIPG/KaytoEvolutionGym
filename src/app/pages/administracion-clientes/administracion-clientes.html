@@ -1,0 +1,62 @@
+<div class="form-container">
+  <h1>Administración de Clientes</h1>
+
+  <!-- Conexión del formulario con Angular -->
+  <form class="client-form" [formGroup]="socioForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-row">
+      <mat-form-field appearance="fill">
+        <mat-label>Nombre</mat-label>
+        <input matInput placeholder="Ej. Juan" formControlName="nombre" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Apellido Paterno</mat-label>
+        <input matInput placeholder="Ej. Pérez" formControlName="apellidoPaterno" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Apellido Materno</mat-label>
+        <input matInput placeholder="Ej. López" formControlName="apellidoMaterno">
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="fill">
+        <mat-label>Teléfono</mat-label>
+        <input matInput type="tel" placeholder="Ej. 477-123-4567" formControlName="telefono">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Correo Electrónico</mat-label>
+        <input matInput type="email" placeholder="Ej. correo@ejemplo.com" formControlName="correo">
+      </mat-form-field>
+    </div>
+    
+    <div class="form-row">
+      <mat-form-field appearance="fill">
+        <mat-label>Fecha de Nacimiento</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Estado</mat-label>
+        <input matInput placeholder="Ej. Activo / Inactivo" formControlName="estado">
+      </mat-form-field>
+    </div>
+    
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Notas</mat-label>
+      <textarea matInput placeholder="Añade observaciones aquí..." formControlName="notas"></textarea>
+    </mat-form-field>
+
+    <div class="button-row">
+      <button mat-raised-button color="primary" type="submit" [disabled]="socioForm.invalid">
+        Guardar Cliente
+      </button>
+      <button mat-button type="button" (click)="socioForm.reset()">Cancelar</button>
+    </div>
+  </form>
+</div>

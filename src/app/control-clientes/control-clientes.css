@@ -1,0 +1,28 @@
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+table {
+  width: 100%;
+  margin-top: 15px;
+}
+
+.activo {
+  color: green;
+  font-weight: bold;
+}
+
+.inactivo {
+  color: red;
+  font-weight: bold;
+}
+
+mat-icon {
+  cursor: pointer;
+}

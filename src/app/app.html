@@ -1,0 +1,23 @@
+<!-- app.html -->
+<mat-toolbar color="primary">
+  <span>Kayto Evolution</span>
+
+  <span class="spacer"></span>
+
+  <!-- Botón de menú -->
+  <button mat-button [matMenuTriggerFor]="menu">
+    Menú
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="/">Inicio</button>
+    <button mat-menu-item routerLink="/registro-personal">Registro de Personal</button>
+    <button mat-menu-item routerLink="/administracion-clientes">Administracion de clientes</button>
+    <button mat-menu-item routerLink="/control-pagos">Control de pagos</button>
+    <button mat-menu-item routerLink="/control-clientes">Control de clientes</button>
+  </mat-menu>
+</mat-toolbar>
+
+<!-- Contenido dinámico -->
+<div class="content">
+  <router-outlet></router-outlet>
+</div>

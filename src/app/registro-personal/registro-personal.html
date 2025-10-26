@@ -1,0 +1,54 @@
+<div class="container">
+  <h2>Registro de Personal</h2>
+
+  <form [formGroup]="registroForm" (ngSubmit)="guardarEmpleado()">
+    
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Nombre</mat-label>
+      <input matInput placeholder="Escribe el nombre" formControlName="nombre">
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Apellido Paterno</mat-label>
+      <input matInput placeholder="Escribe el apellido Paterno" formControlName="apellidoPaterno">
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Apellido Materno</mat-label>
+      <input matInput placeholder="Escribe el apellido Materno" formControlName="apellidoMaterno">
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Puesto</mat-label>
+      <input matInput placeholder="Escribe el Puesto" formControlName="puesto">
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Correo</mat-label>
+      <input matInput type="email" placeholder="ejemplo@email.com" formControlName="correo">
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Teléfono</mat-label>
+      <input matInput type="tel" placeholder="55-0000-0000" formControlName="telefono">
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Estado</mat-label>
+      <input matInput placeholder="Escribe el Estado" formControlName="estado">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Fecha de inicio</mat-label>
+      <input matInput [matDatepicker]="picker" placeholder="dd/mm/yyyy" formControlName="fechaIngreso">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <div class="actions">
+      <button mat-raised-button color="primary" type="submit" [disabled]="registroForm.invalid">Guardar</button>
+      <button mat-raised-button color="warn" type="button" (click)="cancelar()">Cancelar</button>
+    </div>
+
+  </form>
+</div>
