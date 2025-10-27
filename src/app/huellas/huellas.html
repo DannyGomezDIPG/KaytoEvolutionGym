@@ -1,0 +1,32 @@
+<div class="container">
+  <h2>Registro de Huellas</h2>
+
+  <form [formGroup]="huellaForm" (ngSubmit)="registrarHuella()">
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Tipo de usuario</mat-label>
+      <mat-select formControlName="tipoUsuario" (selectionChange)="onTipoChange($event.value)">
+        <mat-option value="socio">Socio</mat-option>
+        <mat-option value="empleado">Empleado</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>ID del {{ tipoSeleccionado === 'socio' ? 'Socio' : 'Empleado' }}</mat-label>
+      <input matInput formControlName="idUsuario" placeholder="Ejemplo: 1">
+    </mat-form-field>
+
+    <div class="buttons">
+      <button mat-raised-button color="primary" type="button" (click)="capturarHuella()">Capturar Huella</button>
+    </div>
+
+    <div *ngIf="plantillaCapturada" class="preview">
+      <p>✅ Huella capturada correctamente.</p>
+      <textarea readonly>{{ plantillaCapturada }}</textarea>
+    </div>
+
+    <div class="actions">
+      <button mat-raised-button color="accent" type="submit" [disabled]="!plantillaCapturada">Registrar Huella</button>
+    </div>
+  </form>
+</div>
