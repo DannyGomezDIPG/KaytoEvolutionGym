@@ -25,4 +25,12 @@ export class HuellaService {
   registrarHuella(data: HuellaRequest): Observable<any> {
     return this.http.post(`${this.baseUrl}/huellas/registrar`, data);
   }
+
+  verificarHuella(datoPlantilla: string) {
+  return this.http.post<{ encontrado: boolean; nombre?: string; tipoUsuario?: string }>(
+    `${this.baseUrl}/huellas/verificar`,
+    { datoPlantilla }
+  );
+}
+
 }
