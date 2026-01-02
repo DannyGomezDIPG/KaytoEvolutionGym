@@ -1,53 +1,70 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core'; // Importamos signal
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { HuellaService } from '../services/huellas.services';
+import { switchMap, timeout, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-verificacion-huella',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, MatButtonModule, MatCardModule],
   templateUrl: './verificacion-huella.html',
   styleUrl: './verificacion-huella.css'
 })
 export class VerificacionHuella {
-mensaje: string = '';
-  huellaCapturada: string | null = null;
+  // Usamos signals para una reactividad más limpia
+  estado = signal<'esperando' | 'ok' | 'error'>('esperando');
+  mensaje = signal('Coloca tu huella en el lector');
+  cargando = signal(false);
+
+  socioNombre = signal<string | null>(null);
+  vencimiento = signal<string | null>(null);
 
   constructor(private huellaService: HuellaService) {}
 
-  async capturarHuella() {
-    this.mensaje = 'Coloca tu dedo en el lector...';
-    
-    try {
-      // 🔹 Aquí llamas al SDK o API del ZK4500 (ejemplo genérico)
-      const resultado = await this.simularCapturaHuella();
-      this.huellaCapturada = resultado;
-      this.verificarHuella();
-    } catch (err) {
-      this.mensaje = 'Error al capturar la huella.';
-    }
-  }
-
   verificarHuella() {
-    if (!this.huellaCapturada) {
-      this.mensaje = 'No se detectó huella.';
-      return;
-    }
+    this.cargando.set(true);
+    this.estado.set('esperando');
+    this.mensaje.set('Iniciando sensor... Coloca tu huella.');
 
-    this.huellaService.verificarHuella(this.huellaCapturada).subscribe({
-      next: (res) => {
-        if (res.encontrado) {
-          this.mensaje = `✅ Huella encontrada: ${res.nombre} (${res.tipoUsuario})`;
-        } else {
-          this.mensaje = '❌ Huella no registrada en el sistema.';
+    this.huellaService.capturarHuella().pipe(
+      // 1. Damos un margen de 15 segundos para que el usuario ponga la huella
+      timeout(15000), 
+      // 2. Si hay éxito en captura, pasamos a verificar
+      switchMap(resp => {
+        this.mensaje.set('Procesando huella...');
+        return this.huellaService.verificarHuella(resp.template);
+      }),
+      // 3. Manejo de errores específico para el flujo
+      catchError(err => {
+        if (err.name === 'TimeoutError') {
+          return of({ error: true, message: 'Tiempo de espera agotado. Intenta de nuevo.' });
         }
+        return of({ error: true, message: err.error?.message || 'Error de conexión' });
+      })
+    )
+    .subscribe({
+      next: (resp: any) => {
+        if (resp.autorizado) {
+          this.estado.set('ok');
+          this.mensaje.set(resp.mensaje);
+          
+          // Guardamos la información adicional
+          this.socioNombre.set(resp.socio);
+          this.vencimiento.set(resp.vence);
+        } else {
+          this.estado.set('error');
+          this.mensaje.set(resp.mensaje || 'Socio no encontrado');
+        }
+        this.cargando.set(false);
       },
-      error: () => this.mensaje = 'Error al verificar la huella.'
-    });
-  }
-
-  // 🧪 Simulación temporal hasta conectar SDK real
-  simularCapturaHuella(): Promise<string> {
-    return new Promise(resolve => {
-      setTimeout(() => resolve('BASE64_FAKE_TEMPLATE_ABC123'), 2000);
+      error: () => {
+        this.estado.set('error');
+        this.mensaje.set('Error crítico en el sistema');
+        this.cargando.set(false);
+      }
     });
   }
 }

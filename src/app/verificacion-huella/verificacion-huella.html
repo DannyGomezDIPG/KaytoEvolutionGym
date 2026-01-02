@@ -1,10 +1,23 @@
-<div class="verificacion-container">
-  <h2>Verificación de Huella</h2>
-  <button mat-raised-button color="primary" (click)="capturarHuella()">
-    Colocar Dedo
-  </button>
+<mat-card class="verificador-card">
+  <mat-card-title>Acceso al Gimnasio</mat-card-title>
 
-  <div class="mensaje">
-    <p>{{ mensaje }}</p>
-  </div>
-</div>
+  <mat-card-content>
+    <div class="status-container" [ngClass]="estado()">
+      <p class="mensaje-principal">{{ mensaje() }}</p>
+      
+      <div *ngIf="estado() === 'ok' && socioNombre()" class="datos-socio">
+        <hr>
+        <h3>Socio: <strong>{{ socioNombre() }}</strong></h3>
+        <p>Vence el: <span class="fecha">{{ vencimiento() | date:'mediumDate' }}</span></p>
+      </div>
+    </div>
+
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="verificarHuella()"
+      [disabled]="cargando()">
+      {{ cargando() ? 'Verificando...' : 'Escanear Huella' }}
+    </button>
+  </mat-card-content>
+</mat-card>

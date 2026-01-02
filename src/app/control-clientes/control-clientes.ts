@@ -38,7 +38,8 @@ export class ControlClientesComponent implements OnInit {
   mostrarAsignarMembresia = false;
 clienteSeleccionado: any = null;
 
-  constructor(private socioService: SocioService) {}
+  constructor(private socioService: SocioService,
+              private membresiasService: MembresiasService) {}
 
 tiposMembresia = [
   { idTipoMembresia: 1, nombre: 'Visita', dias: 1 },
@@ -69,10 +70,47 @@ fechaFin: Date | null = null;
     );
   }
 
-  abrirAsignarMembresia(cliente: Socio) {
-    this.clienteSeleccionado = cliente;
-    this.mostrarAsignarMembresia = true;
+abrirAsignarMembresia(cliente: any) {
+  this.clienteSeleccionado = cliente;
+  this.tipoSeleccionado = null;
+  this.fechaInicio = new Date();
+  this.fechaFin = null;
+  this.mostrarAsignarMembresia = true;
+}
+
+onTipoMembresiaChange() {
+  if (!this.tipoSeleccionado) return;
+
+  const dias = this.tipoSeleccionado.dias;
+  const fin = new Date(this.fechaInicio);
+  fin.setDate(fin.getDate() + dias);
+
+  this.fechaFin = fin;
+}
+
+guardarMembresia() {
+  if (!this.clienteSeleccionado || !this.tipoSeleccionado) {
+    alert('Selecciona un tipo de membresía');
+    return;
   }
+
+  const payload = {
+    idSocio: this.clienteSeleccionado.idSocios,
+    idTipoMembresia: this.tipoSeleccionado.idTipoMembresia
+  };
+
+  this.membresiasService.asignarMembresia(payload).subscribe({
+    next: () => {
+      alert('Membresía asignada correctamente');
+      this.mostrarAsignarMembresia = false;
+    },
+    error: (err) => {
+      console.error(err);
+      alert('Error al asignar membresía');
+    }
+  });
+}
+
 
   darDeBaja(cliente: Socio) {
     alert(`Dar de baja a ${cliente.nombre} (pendiente backend)`);

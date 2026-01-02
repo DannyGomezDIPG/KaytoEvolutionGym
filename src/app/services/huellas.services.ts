@@ -12,13 +12,15 @@ export interface HuellaRequest {
 
 @Injectable({ providedIn: 'root' })
 export class HuellaService {
-  private baseUrl = 'http://localhost:5073/api'; // ajusta tu puerto
+  private baseUrl = 'http://localhost:5073/api';
 
   constructor(private http: HttpClient) {}
 
   /** Captura la huella desde el lector ZK4500 */
-  capturarHuella(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/fingerprint/capture`);
+  capturarHuella(): Observable<{ template: string }> {
+    return this.http.get<{ template: string }>(
+      `${this.baseUrl}/fingerprint/capture`
+    );
   }
 
   /** Registra la huella en la base de datos */
@@ -26,11 +28,10 @@ export class HuellaService {
     return this.http.post(`${this.baseUrl}/huellas/registrar`, data);
   }
 
-  verificarHuella(datoPlantilla: string) {
-  return this.http.post<{ encontrado: boolean; nombre?: string; tipoUsuario?: string }>(
-    `${this.baseUrl}/huellas/verificar`,
-    { datoPlantilla }
-  );
-}
+  verificarHuella(template: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/huellas/verificar`, {
+      datoPlantilla: template
+    });
+  }
 
 }
