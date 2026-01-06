@@ -31,6 +31,11 @@ export class SocioService {
     return this.http.post<Socio>(this.apiUrl, socio);
   }
 
+  // Agrega este método a tu clase SocioService
+  updateSocio(id: number, socio: Socio): Observable<void> {
+  return this.http.put<void>(`${this.apiUrl}/${id}`, socio);
+  }
+
   deleteSocio(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
