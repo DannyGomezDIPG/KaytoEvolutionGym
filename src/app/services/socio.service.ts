@@ -39,4 +39,11 @@ export class SocioService {
   deleteSocio(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  getHistorialSocio(id: number) {
+  return this.http.get<any>(
+    `${this.apiUrl}/${id}/historial`
+  );
+  }
+
 }

@@ -12,6 +12,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker'; // Opcional 
 import { MatNativeDateModule } from '@angular/material/core';
 import { MembresiasService } from '../services/membresias.service';
 import { SocioService, Socio } from '../services/socio.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-control-clientes',
@@ -50,7 +52,9 @@ export class ControlClientesComponent implements OnInit {
   });
 
   constructor(private socioService: SocioService, 
-              private membresiasService: MembresiasService) {}
+              private membresiasService: MembresiasService,
+              private router: Router
+) {}
 
   ngOnInit(): void {
     this.cargarSocios();
@@ -122,4 +126,11 @@ export class ControlClientesComponent implements OnInit {
       this.socioService.deleteSocio(id).subscribe(() => this.cargarSocios());
     }
   }
+
+  verHistorial(cliente: Socio) {
+  if (!cliente.idSocios) return;
+
+  this.router.navigate(['/historial', cliente.idSocios]);
+}
+
 }

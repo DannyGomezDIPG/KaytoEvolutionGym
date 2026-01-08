@@ -6,6 +6,7 @@ import { AdministracionClientes } from './pages/administracion-clientes/administ
 import { ControlPagos } from './pages/control-pagos/control-pagos'; 
 import { ControlClientesComponent } from './control-clientes/control-clientes';
 import { CapturaHuellasComponent } from './huellas/huellas';
+import { HistorialSocioComponent } from './historial-socio/historial-socio';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/inicio', pathMatch: 'full' },
@@ -15,5 +16,6 @@ export const routes: Routes = [
   { path: 'control-pagos', component: ControlPagos },
   { path: 'control-clientes', component: ControlClientesComponent },
   { path: 'huellas', component: CapturaHuellasComponent },
+  { path: 'historial/:id', component: HistorialSocioComponent },
   { path: '**', redirectTo: '/inicio' }
 ];

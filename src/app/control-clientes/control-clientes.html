@@ -1,6 +1,6 @@
 <div class="container">
   <mat-card>
-    <div class="header-row" style="display: flex; justify-content: space-between; padding: 15px;">
+    <div class="header-row" style="display: flex; justify-content: space-between; padding: 15px">
       <mat-card-title>Control de Clientes</mat-card-title>
       <button mat-raised-button color="primary" (click)="abrirFormulario()">
         <mat-icon>person_add</mat-icon> Nuevo Socio
@@ -10,7 +10,12 @@
     <mat-card-content>
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Buscar por nombre o correo...</mat-label>
-        <input matInput [ngModel]="filtro()" (ngModelChange)="filtro.set($event)" placeholder="Ej. Juan">
+        <input
+          matInput
+          [ngModel]="filtro()"
+          (ngModelChange)="filtro.set($event)"
+          placeholder="Ej. Juan"
+        />
       </mat-form-field>
 
       <table mat-table [dataSource]="clientesEnTabla()" class="mat-elevation-z8 full-width">
@@ -44,6 +49,11 @@
             <button mat-icon-button (click)="abrirAsignarMembresia(cliente)" title="Membresía">
               <mat-icon color="accent">card_membership</mat-icon>
             </button>
+            <button mat-icon-button color="primary" (click)="verHistorial(cliente)" matTooltip="Historial de asistencias y pagos"
+            >
+              <mat-icon>history</mat-icon>
+            </button>
+
             <button mat-icon-button (click)="eliminarSocio(cliente.idSocios)" title="Eliminar">
               <mat-icon color="warn">delete</mat-icon>
             </button>
@@ -51,38 +61,40 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="columnas"></tr>
-        <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnas"></tr>
       </table>
     </mat-card-content>
   </mat-card>
 
   <mat-card *ngIf="mostrarFormularioSocio()" class="mt-3">
-    <mat-card-title>{{ socioForm().idSocios ? 'Editar Detalle' : 'Registro' }} de Socio</mat-card-title>
+    <mat-card-title
+      >{{ socioForm().idSocios ? 'Editar Detalle' : 'Registro' }} de Socio</mat-card-title
+    >
     <mat-card-content>
       <div class="form-grid">
         <mat-form-field appearance="outline">
           <mat-label>Nombre</mat-label>
-          <input matInput [(ngModel)]="socioForm().nombre">
+          <input matInput [(ngModel)]="socioForm().nombre" />
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Apellido Paterno</mat-label>
-          <input matInput [(ngModel)]="socioForm().apellidoPaterno">
+          <input matInput [(ngModel)]="socioForm().apellidoPaterno" />
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Apellido Materno</mat-label>
-          <input matInput [(ngModel)]="socioForm().apellidoMaterno">
+          <input matInput [(ngModel)]="socioForm().apellidoMaterno" />
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Teléfono</mat-label>
-          <input matInput [(ngModel)]="socioForm().telefono">
+          <input matInput [(ngModel)]="socioForm().telefono" />
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Correo Electrónico</mat-label>
-          <input matInput [(ngModel)]="socioForm().correo" type="email">
+          <input matInput [(ngModel)]="socioForm().correo" type="email" />
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -112,9 +124,8 @@
       <div *ngIf="clienteSeleccionado() as cliente">
         <p><strong>Socio:</strong> {{ cliente.nombre }} {{ cliente.apellidoPaterno }}</p>
         <p><strong>ID:</strong> #{{ cliente.idSocios }}</p>
-        
-        </div>
-      
+      </div>
+
       <button mat-button color="warn" (click)="mostrarAsignarMembresia.set(false)">Cancelar</button>
     </mat-card-content>
   </mat-card>
